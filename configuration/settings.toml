@@ -1,0 +1,12 @@
+[default]
+API_URL = "/api/v1"
+SERVER_RELOAD = 1
+
+[production]
+SERVER_RELOAD = 0
+
+[development]
+SERVER_RELOAD = 1
+
+[testing]
+MAIL_SUPPRESS_SEND = 1
