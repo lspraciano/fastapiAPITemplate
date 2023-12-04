@@ -1,0 +1,19 @@
+FROM python:3.11.2 as python-base
+
+RUN mkdir -p /api/fastapi_api_template
+WORKDIR /api/fastapi_api_template
+
+RUN pip install poetry
+
+COPY ../poetry.lock /api/fastapi_api_template
+COPY ../pyproject.toml /api/fastapi_api_template
+COPY ../alembic.ini /api/fastapi_api_template
+
+COPY ../app /api/fastapi_api_template/app
+COPY ../configuration /api/fastapi_api_template/configuration
+COPY ../migrations /api/fastapi_api_template/migrations
+
+RUN poetry config virtualenvs.create false
+RUN poetry install
+
+ENTRYPOINT ["/bin/bash", "-c", "alembic upgrade head && uvicorn app.main:app --reload --proxy-headers --host 0.0.0.0 --port 8000"]

@@ -19,8 +19,8 @@ async def create_exemple_(
         new_exemple: ExempleSchemaCreate
 ):
     new_exemple: ExempleModel = await create_exemple(
-        name=ExempleResponseSchema.name,
-        email=ExempleResponseSchema.email
+        name=new_exemple.name,
+        email=new_exemple.email
     )
 
     return new_exemple
