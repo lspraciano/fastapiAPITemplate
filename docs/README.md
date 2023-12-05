@@ -21,7 +21,7 @@ Este projeto é atualizado periodicamente.
 
 ## 🕹️ Estrutura do Projeto
 
-Vamos entender a disposição dos arquivos deste projeto, que foi distribuido
+Vamos entender a disposição dos arquivos deste projeto, que foi distribuído
 entre os seguintes arquivos e pastas:
 
 1. app
@@ -38,30 +38,224 @@ entre os seguintes arquivos e pastas:
 12. poetry.lock
 13. pyproject.toml
 
-### 📌 app
+### 📁 app
 
-### 📌 configuration
+Nesta pasta encontramos os arquivos principais da aplicação. Ela
+se divide em:
 
-### 📌 docker
+1. 📁 api
+2. 📁 core
+3. 📁 utils
+4. 📋 main.py
 
-### 📌 docs
+#### 📁 api
 
-### 📌 migrations
+Esta pasta contém uma pasta chamada endpoint que contém as rotas da
+API e uma pasta chamada events, que contém os eventos que devem ser
+registrados no startup e shutdown da aplicação.
 
-### 📌 tests
+#### 📁 core
 
-### 📌 .python-version
+Nesta pasta ficam os arquivos que dão sustentação a aplicação, neste
+caso são as pastas:
 
-### 📌 alembic.ini
+1. controllers
+2. database
+3. dependencies
+4. metadata
+5. models
+6. schemas
+7. security
 
-### 📌 docker-compose.dev.yaml
+#### 📁 utils
 
-### 📌 docker-compose.prod.yaml
+Esta pasta é destinada a todo código que dá suporte a aplicação.
 
-### 📌 docker-compose.test.yaml
+#### 📋 main.py
 
-### 📌 poetry.lock
+Este arquivo constitui o núcleo da aplicação FastAPI. Nele, encontramos
+a definição da aplicação por meio da criação de uma instância da classe
+FastAPI, que foi definida como:
 
-### 📌 pyproject.toml
+    app: FastAPI
 
+### 📁 configuration
 
+Nesta pasta encontramos as configurações da nossa aplicação. As configurações
+serão armazenadas como variáveis de ambiente, e podem ser definidas como
+4 tipos/chaves:
+
+    [default] -> Os valores contidos nessa chave, serão atribuido como padrão.
+    [production] -> Os valores contidos nessa chave, serão atribuido em modo de produção.
+    [development] -> Os valores contidos nessa chave, serão atribuido em modo de devesenvolvimento.
+    [testing] -> Os valores contidos nessa chave, serão atribuido em modo de teste.
+
+Para definir qual modo a aplicação irá rodar você deve definir a variável de ambiente
+
+    FASTAPITEMPLATE_APP_RUNNING_MODE
+
+por exemplo:
+
+No Windows:
+
+    setx BIOIADEMON_APP_RUNNING_MODE "development"
+
+No Linux:
+
+    export BIOIADEMON_APP_RUNNING_MODE=development
+
+Os arquivos contidos nesta pasta são:
+
+1. 📋 .secrets (deve ser criado por você)
+2. 📋 configs.py
+3. 📋 settings.toml
+
+#### 📋 .secrets
+
+Neste arquivo ficarão os dados sensíveis que não deve subir para o repositório,
+como, por exemplo:
+
+    [default]
+    JWT_SECRET = ""
+    ALGORITHM = ""
+    DATABASE_URL = ""
+    
+    [production]
+    JWT_SECRET = ""
+    DATABASE_URL = ""
+    
+    [development]
+    JWT_SECRET = ""
+    DATABASE_URL = ""
+    
+    [testing]
+    JWT_SECRET = ""
+    DATABASE_URL = ""
+
+#### 📋 configs.py
+
+Este arquivo possui a instância da classe Dynaconf que será usada
+pela aplicação. Ela usa as variáveis de ambiente conforme
+o modo que a aplicação está rodando. Este modo e definido através
+da variável de ambiente FASTAPITEMPLATE_APP_RUNNING_MODE. A
+instância da classe foi definida como:
+
+    settings: Dynaconf
+
+#### 📋 settings.toml
+
+Neste arquivo ficarão as configurações menos sensíveis, mas não por isso,
+menos essenciais, como, por exemplo:
+
+    [default]
+    API_URL = "/api/v1"
+    SERVER_RELOAD = 1
+    
+    [production]
+    API_URL = "/api/v1"
+    
+    [development]
+    API_URL = "/api/v1"
+    
+    [testing]
+    API_URL = "/api/v1"
+
+### 📁 docker
+
+Nesta pasta ficam os arquivos referente ao Docker, como exceção
+do docker-compose.*.yaml
+
+1. 📋 .dev.env (deve ser criado por você)
+2. 📋 .prod.env (deve ser criado por você)
+3. 📋 .test.env (deve ser criado por você)
+4. 📋 Dockerfile.api
+
+#### 📋 Arquivos *.env
+
+Estes arquivos possuem as variáveis de ambiente que serão usadas
+para criação dos containers através do docker-compose. Todos eles
+possuem as mesmas chaves, mas os valores podem variar conforme
+a necessidade. Abaixo um exemplo do arquivo:
+
+    POSTGRES_DB=db_production
+    POSTGRES_USER=postgres
+    POSTGRES_PASSWORD=123
+    FASTAPITEMPLATE_DATABASE_URL=postgresql+asyncpg://postgres:123@db:5432/db_production
+
+As variáveis iniciadas com POSTGRES serão usadas para criação do banco,
+já a variável FASTAPITEMPLATE_DATABASE_URL será usada para aplicação
+para se conectar com banco de dados.
+
+#### 📋 Dockerfile.api
+
+Arquivo para definir a imagem da nossa aplicação.
+
+### 📁 docs
+
+Nesta pasta ficam os arquivos que retratam a documentação desta aplicação.
+Como, por exemplo, README.md
+
+### 📁 migrations
+
+Essa pasta contém os arquivos referente as migrações do banco de dados. Estas
+migrações foram criadas usando o alembic.
+
+### 📁 tests
+
+### 📋 .python-version
+
+Arquivo refente a versão python usada neste projeto
+
+### 📋 alembic.ini
+
+Arquivo de configuração do alembic
+
+### 📋 Arquivos docker-compose.*.yaml
+
+Os arquivos docker-compose.yml são como guias de receitas para o Docker.
+Ele diz ao Docker como configurar e interligar vários contêineres para
+funcionarem juntos. Nesse arquivo, você especifica coisas como:
+imagem de contêiner, serviço, portas, volumes, redes que eles vão usar
+e até mesmo as variáveis de ambiente.
+
+### 📋 poetry.lock
+
+Este arquivo registra as versões específicas de todas as
+bibliotecas e dependências que seu projeto precisa para
+funcionar corretamente.
+
+### 📋 pyproject.toml
+
+O arquivo pyproject.toml é um mapa de planejamento para projetos Python,
+onde você define as configurações e metadados do projeto.
+É um arquivo de configuração mais moderno e legível do que o antigo setup.py.
+Nele, você especifica detalhes como o nome do projeto, a versão do
+Python necessária, as dependências, scripts personalizados e até mesmo
+configurações específicas do ambiente de desenvolvimento.
+
+### 🔧 Rodando
+
+Siga os passos abaixo:
+
+#### ▶️️ Clonando o Repositório:
+
+```bash
+git clone https://github.com/lspraciano/fastapiAPITemplate.git
+```
+
+#### ▶️️ Crie os Arquivos Necessários:
+
+No tópico sobre a estrutura do projeto vimos que alguns arquivos precisam
+serem criados. Os arquivos serão listados abaixo para ajudar você:
+
+1. 📋 .dev.env (deve ser criado por você)
+2. 📋 .prod.env (deve ser criado por você)
+3. 📋 .test.env (deve ser criado por você)
+4. 📋 .secrets (deve ser criado por você)
+
+Na dúvida reveja o tópico sobre a estrutura do projeto para criá-los
+devidamente.
+
+#### ▶️️ ...
+
+# ❗ EM DESENVOLVIMENTO...
