@@ -38,3 +38,43 @@ async def get_exemple_by_id(
         exemple: ExempleModel = result.scalars().unique().one_or_none()
 
     return exemple
+
+
+async def delete_exemplo_by_id(
+        exemple_id: int
+) -> ExempleModel | None:
+    exemple_to_delete: ExempleModel | None = await get_exemple_by_id(
+        exemple_id=exemple_id
+    )
+
+    if not exemple_to_delete:
+        return None
+
+    async with async_session() as session:
+        session.delete(exemple_to_delete)
+        await session.commit()
+        return exemple_to_delete
+
+
+async def update_exemplo_by_id(
+        exemple_id: int,
+        name: str | None,
+        email: str | None
+):
+    exemple_to_update: ExempleModel | None = await get_exemple_by_id(
+        exemple_id=exemple_id
+    )
+
+    if not exemple_to_update:
+        return None
+
+    if name is not None:
+        exemple_to_update.name = name
+
+    if email is not None:
+        exemple_to_update.email = email
+
+    async with async_session() as session:
+        session.delete(exemple_to_update)
+        await session.commit()
+        return exemple_to_update
