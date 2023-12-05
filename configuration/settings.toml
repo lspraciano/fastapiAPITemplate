@@ -3,10 +3,10 @@ API_URL = "/api/v1"
 SERVER_RELOAD = 1
 
 [production]
-SERVER_RELOAD = 0
+API_URL = "/api/v1"
 
 [development]
-SERVER_RELOAD = 1
+API_URL = "/api/v1"
 
 [testing]
-MAIL_SUPPRESS_SEND = 1
+API_URL = "/api/v1"

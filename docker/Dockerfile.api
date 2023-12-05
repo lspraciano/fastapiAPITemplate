@@ -15,5 +15,3 @@ COPY ../migrations /api/fastapi_api_template/migrations
 
 RUN poetry config virtualenvs.create false
 RUN poetry install
-
-ENTRYPOINT ["/bin/bash", "-c", "alembic upgrade head && uvicorn app.main:app --reload --proxy-headers --host 0.0.0.0 --port 8000"]

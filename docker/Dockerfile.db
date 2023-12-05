@@ -1,2 +1,0 @@
-FROM postgres:14.1-alpine
-COPY ./docker/create-databases.sh /docker-entrypoint-initdb.d/

@@ -15,7 +15,7 @@ settings: Dynaconf = Dynaconf(
     envvar_prefix="FASTAPITEMPLATE",
     settings_files=[
         "./configuration/settings.toml",
-        "./configuration/.secrets.toml",
+        "./configuration/.secrets.toml"
     ],
     environments=[
         "production",

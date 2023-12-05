@@ -279,3 +279,6 @@ cython_debug/
 # End of https://www.toptal.com/developers/gitignore/api/python,pycharm
 # Ignore dynaconf secret files
 configuration/.secrets.toml
+/docker/dev.env
+*.env
+/docker/prod.env

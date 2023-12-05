@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.events.shutdown.register_shutdown_events import register_shutdown_events
 from app.api.events.startup.register_startup_events import register_startup_events
 from app.core.metadata.metadata import get_project_metadata
-from app.core.endpoints.router_register import api_routers
+from app.api.endpoints.router_register import api_routers
 from configuration.configs import settings
 
 

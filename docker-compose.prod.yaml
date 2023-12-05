@@ -7,21 +7,22 @@ services:
       dockerfile: docker/Dockerfile.api
     ports:
       - "8000:8000"
-    environment:
-      FASTAPITEMPLATE_APP_RUNNING_MODE: production
     volumes:
-      - .:/home/app/api
+      - .:/api/fastapi_api_template
     networks:
       - fastapi-network
+    environment:
+      - FASTAPITEMPLATE_APP_RUNNING_MODE=production
+    env_file:
+      - docker/prod.env
     depends_on:
       db:
         condition: service_healthy
+    command: [ "/bin/bash", "-c", "alembic upgrade head && uvicorn app.main:app --proxy-headers --host 0.0.0.0 --port 8000" ]
+
 
   db:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile.db
-    image: postgres
+    image: postgres:14
     volumes:
       - postgres-data:/var/lib/postgresql/data
     ports:
@@ -34,7 +35,7 @@ services:
       timeout: 5s
       retries: 10
     env_file:
-      - docker/.env
+      - docker/prod.env
 
 
 networks:

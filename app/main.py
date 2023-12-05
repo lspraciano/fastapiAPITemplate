@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.api.api_genarator import api_factory
+from app.api.api_generator import api_factory
 from configuration.configs import settings
 
 app: FastAPI = api_factory()
