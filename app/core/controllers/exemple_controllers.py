@@ -51,7 +51,7 @@ async def delete_exemplo_by_id(
         return None
 
     async with async_session() as session:
-        session.delete(exemple_to_delete)
+        await session.delete(exemple_to_delete)
         await session.commit()
         return exemple_to_delete
 

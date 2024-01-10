@@ -90,20 +90,6 @@ serão armazenadas como variáveis de ambiente, e podem ser definidas como
     [development] -> Os valores contidos nessa chave, serão atribuido em modo de devesenvolvimento.
     [testing] -> Os valores contidos nessa chave, serão atribuido em modo de teste.
 
-Para definir qual modo a aplicação irá rodar você deve definir a variável de ambiente
-
-    FASTAPITEMPLATE_APP_RUNNING_MODE
-
-por exemplo:
-
-No Windows:
-
-    setx BIOIADEMON_APP_RUNNING_MODE "development"
-
-No Linux:
-
-    export BIOIADEMON_APP_RUNNING_MODE=development
-
 Os arquivos contidos nesta pasta são:
 
 1. 📋 .secrets (deve ser criado por você)
@@ -218,6 +204,27 @@ funcionarem juntos. Nesse arquivo, você especifica coisas como:
 imagem de contêiner, serviço, portas, volumes, redes que eles vão usar
 e até mesmo as variáveis de ambiente.
 
+Para definir qual modo a aplicação irá rodar você deve definir a variável de ambiente
+que fica dentro dos arquivos "docker-compose...". Tenha em mente que esta aplicação
+é feita para rodar em containers até mesmo durante o desenvolvimento. Os arquivos
+"docker-compose..." ficam na raiz do projeto.
+
+Por exemplo:
+
+    ...
+
+    FASTAPITEMPLATE_APP_RUNNING_MODE=development
+
+    ...
+
+Existe um arquivo para cada modo que a aplicação poderá rodar, nesta aplicação
+encontraremos:
+
+1. docker-compose.dev.yaml
+2. docker-compose.prod.yaml
+3. docker-compose.test.yaml
+
+
 ### 📋 poetry.lock
 
 Este arquivo registra as versões específicas de todas as
@@ -233,7 +240,7 @@ Nele, você especifica detalhes como o nome do projeto, a versão do
 Python necessária, as dependências, scripts personalizados e até mesmo
 configurações específicas do ambiente de desenvolvimento.
 
-### 🔧 Rodando
+### 🔧 Clonando e Rodando
 
 Siga os passos abaixo:
 
@@ -246,7 +253,7 @@ git clone https://github.com/lspraciano/fastapiAPITemplate.git
 #### ▶️️ Crie os Arquivos Necessários:
 
 No tópico sobre a estrutura do projeto vimos que alguns arquivos precisam
-serem criados. Os arquivos serão listados abaixo para ajudar você:
+ser criados. Os arquivos serão listados abaixo para ajudar você:
 
 1. 📋 .dev.env (deve ser criado por você)
 2. 📋 .prod.env (deve ser criado por você)
@@ -256,6 +263,15 @@ serem criados. Os arquivos serão listados abaixo para ajudar você:
 Na dúvida reveja o tópico sobre a estrutura do projeto para criá-los
 devidamente.
 
-#### ▶️️ ...
+#### ▶️️ Rodando
 
-# ❗ EM DESENVOLVIMENTO...
+Após criar os arquivos base, vamos rodar a aplicação. Lembre que para cada
+modo que a aplicação poderá ser iniciada temos um arquivo docker-compose...
+para tal. Vamos neste exemplo rodar em modo de "development".
+
+```bash
+docker compose -f docker-compose.dev.yaml up
+```
+
+Neste padrão de projeto, assim que você realizar alterações na aplicação, não
+será necessário reiniciar o docker, pois bindamos a pasta para garantir o reload
