@@ -94,9 +94,9 @@ Os arquivos contidos nesta pasta são:
 
 1. 📋 .secrets (deve ser criado por você)
 2. 📋 configs.py
-3. 📋 settings.toml
+3. 📋 .settings.toml
 
-#### 📋 .secrets
+#### 📋 .settings.toml
 
 Neste arquivo ficarão os dados sensíveis que não deve subir para o repositório,
 como, por exemplo:
@@ -151,9 +151,9 @@ menos essenciais, como, por exemplo:
 Nesta pasta ficam os arquivos referente ao Docker, como exceção
 do docker-compose.*.yaml
 
-1. 📋 .dev.env (deve ser criado por você)
-2. 📋 .prod.env (deve ser criado por você)
-3. 📋 .test.env (deve ser criado por você)
+1. 📋 .dev.env
+2. 📋 .prod.env
+3. 📋 .test.env
 4. 📋 Dockerfile.api
 
 #### 📋 Arquivos *.env
@@ -170,7 +170,7 @@ a necessidade. Abaixo um exemplo do arquivo:
 
 As variáveis iniciadas com POSTGRES serão usadas para criação do banco,
 já a variável FASTAPITEMPLATE_DATABASE_URL será usada para aplicação
-para se conectar com banco de dados.
+para se conectar com banco de dados. Adapte de acordo com sua necessidade.
 
 #### 📋 Dockerfile.api
 
@@ -187,6 +187,8 @@ Essa pasta contém os arquivos referente as migrações do banco de dados. Estas
 migrações foram criadas usando o alembic.
 
 ### 📁 tests
+
+Ainda não foi implementado testes de exemplo
 
 ### 📋 .python-version
 
@@ -250,22 +252,23 @@ Siga os passos abaixo:
 git clone https://github.com/lspraciano/fastapiAPITemplate.git
 ```
 
-#### ▶️️ Crie os Arquivos Necessários:
+#### ▶️️ Adapte o Conteúdo dos Arquivos Necessários:
 
 No tópico sobre a estrutura do projeto vimos que alguns arquivos precisam
-ser criados. Os arquivos serão listados abaixo para ajudar você:
+ser adaptados de acordo com sua necessidade. Os arquivos serão listados
+abaixo para ajudar você:
 
-1. 📋 .dev.env (deve ser criado por você)
-2. 📋 .prod.env (deve ser criado por você)
-3. 📋 .test.env (deve ser criado por você)
-4. 📋 .secrets (deve ser criado por você)
+1. 📋 docker/.dev.env
+2. 📋 docker/.prod.env
+3. 📋 docker/.test.env
+4. 📋 configuration/.secrets.toml
 
 Na dúvida reveja o tópico sobre a estrutura do projeto para criá-los
 devidamente.
 
 #### ▶️️ Rodando
 
-Após criar os arquivos base, vamos rodar a aplicação. Lembre que para cada
+Após ajustar os arquivos básicos, vamos rodar a aplicação. Lembre que para cada
 modo que a aplicação poderá ser iniciada temos um arquivo docker-compose...
 para tal. Vamos neste exemplo rodar em modo de "development".
 
@@ -274,4 +277,4 @@ docker compose -f docker-compose.dev.yaml up
 ```
 
 Neste padrão de projeto, assim que você realizar alterações na aplicação, não
-será necessário reiniciar o docker, pois bindamos a pasta para garantir o reload
+será necessário reiniciar o docker, pois "bindamos" a pasta para garantir o reload
