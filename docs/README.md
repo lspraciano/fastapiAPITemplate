@@ -9,6 +9,11 @@ desenvolvida usando FastAPI. A aplicação deste projeto, por padrão,
 no docker reduzindo problemas inconvenientes durante o deploy da
 aplicação.
 
+No gif abaixo, você pode observar uma das vantagens: mesmo ao executar
+no ambiente Docker, a funcionalidade de autoreload permanece ativa.
+
+![autoreload_exemple.gif](autoreload_exemple.gif)
+
 ## ☑️ Andamento do Projeto
 
 - Em Desenvolvimento
