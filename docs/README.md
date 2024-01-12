@@ -263,8 +263,8 @@ abaixo para ajudar você:
 3. 📋 docker/.test.env
 4. 📋 configuration/.secrets.toml
 
-Na dúvida reveja o tópico sobre a estrutura do projeto para criá-los
-devidamente.
+Na dúvida reveja o tópico sobre a estrutura do projeto para entender
+melhor qual o conteúdo desses arquivos.
 
 #### ▶️️ Rodando
 
@@ -273,6 +273,7 @@ modo que a aplicação poderá ser iniciada temos um arquivo docker-compose...
 para tal. Vamos neste exemplo rodar em modo de "development".
 
 ```bash
+cd fastapiAPITemplate
 docker compose -f docker-compose.dev.yaml up
 ```
 
