@@ -29,5 +29,6 @@ settings: Dynaconf = Dynaconf(
             must_exist=True,
         )
     ],
-    load_dotenv=False
+    load_dotenv=False,
+    sysenv_fallback=True
 )
