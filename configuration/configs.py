@@ -2,6 +2,7 @@ import os
 
 from dynaconf import Dynaconf, Validator
 
+APP_ENV_VAR_PREFIX: str = "FASTAPITEMPLATE"
 current_dir: str = os.path.dirname(__file__)
 root: str = os.path.abspath(
     os.path.join(
@@ -12,7 +13,7 @@ root: str = os.path.abspath(
 
 settings: Dynaconf = Dynaconf(
     root_path=root,
-    envvar_prefix="FASTAPITEMPLATE",
+    envvar_prefix=APP_ENV_VAR_PREFIX,
     settings_files=[
         "./configuration/settings.toml",
         "./configuration/.secrets.toml"
@@ -22,7 +23,7 @@ settings: Dynaconf = Dynaconf(
         "development",
         "testing"
     ],
-    env_switcher="FASTAPITEMPLATE_APP_RUNNING_MODE",
+    env_switcher=f"{APP_ENV_VAR_PREFIX}_APP_RUNNING_MODE",
     validators=[
         Validator(
             names="APP_RUNNING_MODE",

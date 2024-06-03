@@ -14,16 +14,16 @@ psycopg2 = "^2.9.9"
 sqlalchemy = "^2.0.23"
 alembic = "^1.13.0"
 asyncpg = "^0.29.0"
-pytest-asyncio = "^0.21.1"
 httpx = "^0.25.2"
 uvicorn = "0.20.0"
 toml = "^0.10.2"
+asgi-lifespan = "^2.1.0"
+pytest-asyncio = "^0.23.5"
 
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
 
 [tool.pytest.ini_options]
 python_files = "tests.py test_*.py *_tests.py"

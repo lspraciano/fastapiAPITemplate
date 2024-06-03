@@ -1,33 +1,34 @@
-from typing import Dict
-
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.events.shutdown.register_shutdown_events import register_shutdown_events
-from app.api.events.startup.register_startup_events import register_startup_events
-from app.core.metadata.metadata import get_project_metadata
 from app.api.endpoints.router_register import api_routers
+from app.api.events.lifespan import lifespan
+from app.core.metadata.metadata import get_project_metadata
+from app.utils.cors.register_cors import register_cors
+from app.utils.exceptions_handlers.register_exceptions_handlers import register_exceptions_handlers
+from app.utils.logger.http_logger import register_http_logger
 from configuration.configs import settings
 
 
 def api_factory() -> FastAPI:
     origins: list = ["*"]
-    project_metadata: Dict = get_project_metadata()
+    project_metadata: dict = get_project_metadata()
 
     current_api: FastAPI = FastAPI(
+        lifespan=lifespan,
         title=project_metadata["name"],
         description=project_metadata["description"],
         version=project_metadata["version"],
-        docs_url=f"{settings.API_URL}/docs",
-        redoc_url=f"{settings.API_URL}/redoc",
-        openapi_url=f"{settings.API_URL}/openapi.json",
+        root_path=settings.ROOT_PATH,
+        docs_url=f"/docs",
+        redoc_url=f"/redoc",
+        openapi_url=f"/openapi.json",
         servers=[
             {
                 "url": f"http://localhost:8000",
                 "description": "Production environment"
             },
             {
-                "url": f"http://127.0.0.1:8000",
+                "url": f"{settings.from_env('production').API_URL_BASE}",
                 "description": "Development environment"
             },
         ],
@@ -39,26 +40,22 @@ def api_factory() -> FastAPI:
         },
     )
 
+    register_http_logger(
+        app=current_api
+    )
+
     current_api.include_router(
-        api_routers,
-        prefix=f"{settings.API_URL}"
+        router=api_routers,
+        prefix=f"{settings.API_PREFIX}"
     )
 
-    current_api.add_middleware(
-        CORSMiddleware,
-        allow_origins=origins,
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-        expose_headers=["Detections"]
+    register_cors(
+        app=current_api,
+        origins=origins
     )
 
-    current_api: FastAPI = register_startup_events(
-        api=current_api
-    )
-
-    current_api: FastAPI = register_shutdown_events(
-        api=current_api
+    register_exceptions_handlers(
+        app=current_api
     )
 
     return current_api

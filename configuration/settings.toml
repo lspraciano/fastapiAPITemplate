@@ -1,12 +1,19 @@
 [default]
-API_URL = "/api/v1"
 SERVER_RELOAD = 1
+DB_SCHEMA = ""
+ROOT_PATH = ""
+API_PREFIX = ""
+API_URL_BASE = ""
+ENABLE_CORS = 1
+APP_USER_SQL_TRANSACTIONS = "SYS_APP"
 
 [production]
-API_URL = "/api/v1"
+API_URL_BASE = ""
+
 
 [development]
-API_URL = "/api/v1"
+API_URL_BASE = ""
+
 
 [testing]
-API_URL = "/api/v1"
+API_URL_BASE = ""

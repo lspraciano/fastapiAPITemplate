@@ -1,80 +1,87 @@
+from sqlalchemy import Select, ScalarResult
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
-from app.core.database.database import async_session
 from app.core.models.exemple_model import ExempleModel
+from app.core.schemas.exemple_schema import ExempleSchemaUpdate
 
 
 async def create_exemple(
         name: str,
-        email: str
+        email: str,
+        async_session: AsyncSession,
 ) -> ExempleModel:
     new_exemple: ExempleModel = ExempleModel(
         name=name,
         email=email
     )
 
-    async with async_session() as session:
-        session.add(new_exemple)
-        await session.commit()
-        return new_exemple
+    async_session.add(new_exemple)
+    await async_session.commit()
+    return new_exemple
 
 
-async def get_all_exemples() -> list[ExempleModel] | None:
-    async with async_session() as session:
-        query = select(ExempleModel)
-        result = await session.execute(query)
-        exemples: list[ExempleModel] = result.scalars().unique().all()
-    return exemples
+async def get_all_exemples(
+        async_session: AsyncSession,
+) -> list[ExempleModel] | None:
+    exemples_list: list[ExempleModel] = []
+    query: Select = select(ExempleModel)
+    scalar_results: ScalarResult = await async_session.scalars(statement=query)
+
+    for scalar_result in scalar_results:
+        exemples_list.append(scalar_result)
+
+    return exemples_list
 
 
 async def get_exemple_by_id(
-        exemple_id: int
+        exemple_id: int,
+        async_session: AsyncSession,
 ) -> ExempleModel | None:
-    async with async_session() as session:
-        query = select(ExempleModel).filter(
-            ExempleModel.id == exemple_id
-        )
-        result = await session.execute(query)
-        exemple: ExempleModel = result.scalars().unique().one_or_none()
+    query: Select = select(ExempleModel).where(
+        exemple_id == ExempleModel.id
+    )
+
+    exemple: ExempleModel | None = await async_session.scalar(statement=query)
 
     return exemple
 
 
 async def delete_exemplo_by_id(
-        exemple_id: int
+        exemple_id: int,
+        async_session: AsyncSession,
 ) -> ExempleModel | None:
     exemple_to_delete: ExempleModel | None = await get_exemple_by_id(
-        exemple_id=exemple_id
+        exemple_id=exemple_id,
+        async_session=async_session
     )
 
     if not exemple_to_delete:
         return None
 
-    async with async_session() as session:
-        await session.delete(exemple_to_delete)
-        await session.commit()
-        return exemple_to_delete
+    await async_session.delete(instance=exemple_to_delete)
+    await async_session.commit()
+    return exemple_to_delete
 
 
 async def update_exemplo_by_id(
         exemple_id: int,
-        name: str | None,
-        email: str | None
+        update_schema: ExempleSchemaUpdate,
+        async_session: AsyncSession,
 ):
     exemple_to_update: ExempleModel | None = await get_exemple_by_id(
-        exemple_id=exemple_id
+        exemple_id=exemple_id,
+        async_session=async_session
     )
 
     if not exemple_to_update:
         return None
 
-    if name is not None:
-        exemple_to_update.name = name
+    for field, value in update_schema.model_dump(exclude_unset=True).items():
+        if hasattr(ExempleModel, field):
+            setattr(exemple_to_update, field, value)
 
-    if email is not None:
-        exemple_to_update.email = email
-
-    async with async_session() as session:
-        session.delete(exemple_to_update)
-        await session.commit()
-        return exemple_to_update
+    async_session.add(instance=exemple_to_update)
+    await async_session.commit()
+    await async_session.refresh(instance=exemple_to_update)
+    return exemple_to_update

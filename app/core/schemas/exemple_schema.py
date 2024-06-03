@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class ExempleSchema(BaseModel):
@@ -6,13 +6,14 @@ class ExempleSchema(BaseModel):
     name: str
     email: str
 
-    class Config:
-        from_attributes = True
-
 
 class ExempleSchemaCreate(BaseModel):
     name: str
     email: str
+    model_config = ConfigDict(extra="forbid")
 
-    class Config:
-        from_attributes = True
+
+class ExempleSchemaUpdate(BaseModel):
+    name: str | None = None
+    email: str | None = None
+    model_config = ConfigDict(extra="forbid")
