@@ -3,17 +3,15 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 
 from app.core.models.exemple_model import ExempleModel
-from app.core.schemas.exemple_schema import ExempleSchemaUpdate
+from app.core.schemas.exemple_schema import ExempleSchemaUpdate, ExempleSchemaCreate
 
 
 async def create_exemple(
-        name: str,
-        email: str,
+        create_schema: ExempleSchemaCreate,
         async_session: AsyncSession,
 ) -> ExempleModel:
     new_exemple: ExempleModel = ExempleModel(
-        name=name,
-        email=email
+        **create_schema.model_dump(exclude_unset=True),
     )
 
     async_session.add(new_exemple)

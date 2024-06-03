@@ -25,8 +25,7 @@ async def create_exemple_(
         async_session: AsyncSession = Depends(get_db_session)
 ):
     new_exemple: ExempleModel = await create_exemple(
-        name=new_exemple.name,
-        email=new_exemple.email,
+        create_schema=new_exemple,
         async_session=async_session
     )
 
