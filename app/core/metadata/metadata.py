@@ -1,10 +1,10 @@
-from typing import Dict
+
 from configuration.configs import settings
 
 import toml
 
 
-def get_project_metadata() -> Dict:
+def get_project_metadata() -> dict:
     pyproject_full_path: str = settings.ROOT_PATH_FOR_DYNACONF + "/pyproject.toml"
     with open(
             file=pyproject_full_path,
@@ -12,5 +12,5 @@ def get_project_metadata() -> Dict:
             encoding="utf-8"
 
     ) as f:
-        all_data: Dict = toml.load(f)
+        all_data: dict = toml.load(f)
         return all_data["tool"]["poetry"]
