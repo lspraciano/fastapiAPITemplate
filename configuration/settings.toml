@@ -1,19 +1,18 @@
 [default]
 SERVER_RELOAD = 1
 DB_SCHEMA = ""
-ROOT_PATH = ""
+PROXY_ROOT_PATH = ""
 API_PREFIX = ""
-API_URL_BASE = ""
 ENABLE_CORS = 1
 APP_USER_SQL_TRANSACTIONS = "SYS_APP"
 
 [production]
-API_URL_BASE = ""
+API_URL_BASE = "https://prodution-host.com/"
 
 
 [development]
-API_URL_BASE = ""
+API_URL_BASE = "http://localhost:8000/"
 
 
 [testing]
-API_URL_BASE = ""
+API_URL_BASE = "http://localhost:8000/"

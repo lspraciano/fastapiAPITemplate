@@ -18,18 +18,18 @@ def api_factory() -> FastAPI:
         title=project_metadata["name"],
         description=project_metadata["description"],
         version=project_metadata["version"],
-        root_path=settings.ROOT_PATH,
+        root_path=settings.PROXY_ROOT_PATH,
         docs_url=f"/docs",
         redoc_url=f"/redoc",
         openapi_url=f"/openapi.json",
         servers=[
             {
-                "url": f"http://localhost:8000",
-                "description": "Production environment"
+                "url": f"{settings.from_env('development').API_URL_BASE}",
+                "description": "Development environment"
             },
             {
                 "url": f"{settings.from_env('production').API_URL_BASE}",
-                "description": "Development environment"
+                "description": "Production environment"
             },
         ],
         swagger_ui_parameters={

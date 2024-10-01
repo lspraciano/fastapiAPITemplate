@@ -25,7 +25,7 @@ async def async_client() -> AsyncIterator[AsyncClient]:
 
     async with AsyncClient(
             app=app,
-            base_url=f"http://{settings.API_URL}"
+            base_url=f"{settings.API_URL_BASE}v1"
     ) as client, LifespanManager(app):
         yield client
 

@@ -101,7 +101,7 @@ Os arquivos contidos nesta pasta são:
 2. 📋 configs.py
 3. 📋 .settings.toml
 
-#### 📋 .settings.toml
+#### 📋 .secrets.toml
 
 Neste arquivo ficarão os dados sensíveis que não deve subir para o repositório,
 como, por exemplo:
@@ -109,19 +109,18 @@ como, por exemplo:
     [default]
     JWT_SECRET = ""
     ALGORITHM = ""
-    DATABASE_URL = ""
     
     [production]
     JWT_SECRET = ""
-    DATABASE_URL = ""
+    DB_URI = ""
     
     [development]
     JWT_SECRET = ""
-    DATABASE_URL = ""
+    DB_URI = ""
     
     [testing]
     JWT_SECRET = ""
-    DATABASE_URL = ""
+    DB_URI = ""
 
 #### 📋 configs.py
 
@@ -139,17 +138,23 @@ Neste arquivo ficarão as configurações menos sensíveis, mas não por isso,
 menos essenciais, como, por exemplo:
 
     [default]
-    API_URL = "/api/v1"
     SERVER_RELOAD = 1
+    DB_SCHEMA = ""
+    PROXY_ROOT_PATH = ""
+    API_PREFIX = ""
+    ENABLE_CORS = 1
+    APP_USER_SQL_TRANSACTIONS = "SYS_APP"
     
     [production]
-    API_URL = "/api/v1"
+    API_URL_BASE = "https://prodution-host.com/"
+    
     
     [development]
-    API_URL = "/api/v1"
+    API_URL_BASE = "http://localhost:8000/"
+    
     
     [testing]
-    API_URL = "/api/v1"
+    API_URL_BASE = "http://localhost:8000/"
 
 ### 📁 docker
 
