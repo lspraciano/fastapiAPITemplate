@@ -38,10 +38,8 @@ entre os seguintes arquivos e pastas:
 7. .python-version
 8. alembic.ini
 9. docker-compose.dev.yaml
-10. docker-compose.prod.yaml
-11. docker-compose.test.yaml
-12. poetry.lock
-13. pyproject.toml
+10. poetry.lock
+11. pyproject.toml
 
 ### 📁 app
 
@@ -159,32 +157,11 @@ menos essenciais, como, por exemplo:
 ### 📁 docker
 
 Nesta pasta ficam os arquivos referente ao Docker, como exceção
-do docker-compose.*.yaml
+do docker-compose.*.yaml. Os arquivos foram separados por 
+responsabilidades. Abaixo a divisão:
 
-1. 📋 .dev.env
-2. 📋 .prod.env
-3. 📋 .test.env
-4. 📋 Dockerfile.api
-
-#### 📋 Arquivos *.env
-
-Estes arquivos possuem as variáveis de ambiente que serão usadas
-para criação dos containers através do docker-compose. Todos eles
-possuem as mesmas chaves, mas os valores podem variar conforme
-a necessidade. Abaixo um exemplo do arquivo:
-
-    POSTGRES_DB=db_production
-    POSTGRES_USER=postgres
-    POSTGRES_PASSWORD=123
-    FASTAPITEMPLATE_DATABASE_URL=postgresql+asyncpg://postgres:123@db:5432/db_production
-
-As variáveis iniciadas com POSTGRES serão usadas para criação do banco,
-já a variável FASTAPITEMPLATE_DATABASE_URL será usada para aplicação
-para se conectar com banco de dados. Adapte de acordo com sua necessidade.
-
-#### 📋 Dockerfile.api
-
-Arquivo para definir a imagem da nossa aplicação.
+1. api
+2. db
 
 ### 📁 docs
 
@@ -210,7 +187,7 @@ Arquivo de configuração do alembic
 
 ### 📋 Arquivos docker-compose.*.yaml
 
-Os arquivos docker-compose.yml são como guias de receitas para o Docker.
+O arquivo docker-compose.yml é como um guia de receitas para o Docker.
 Ele diz ao Docker como configurar e interligar vários contêineres para
 funcionarem juntos. Nesse arquivo, você especifica coisas como:
 imagem de contêiner, serviço, portas, volumes, redes que eles vão usar
@@ -233,8 +210,6 @@ Existe um arquivo para cada modo que a aplicação poderá rodar, nesta aplicaç
 encontraremos:
 
 1. docker-compose.dev.yaml
-2. docker-compose.prod.yaml
-3. docker-compose.test.yaml
 
 
 ### 📋 poetry.lock
@@ -268,10 +243,8 @@ No tópico sobre a estrutura do projeto vimos que alguns arquivos precisam
 ser adaptados de acordo com sua necessidade. Os arquivos serão listados
 abaixo para ajudar você:
 
-1. 📋 docker/.dev.env
-2. 📋 docker/.prod.env
-3. 📋 docker/.test.env
-4. 📋 configuration/.secrets.toml
+1. 📋 docker/db/db.dev.env
+2. 📋 configuration/.secrets.toml
 
 Na dúvida reveja o tópico sobre a estrutura do projeto para entender
 melhor qual o conteúdo desses arquivos.
