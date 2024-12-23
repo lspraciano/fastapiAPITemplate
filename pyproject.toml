@@ -8,17 +8,17 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-fastapi = "^0.104.1"
-dynaconf = "^3.2.4"
-psycopg2 = "^2.9.9"
-sqlalchemy = "^2.0.23"
-alembic = "^1.13.0"
-asyncpg = "^0.29.0"
-httpx = "^0.25.2"
-uvicorn = "0.20.0"
+fastapi = "^0.115.6"
+dynaconf = "^3.2.6"
+psycopg2 = "^2.9.10"
+sqlalchemy = "^2.0.36"
+alembic = "^1.14.0"
+asyncpg = "^0.30.0"
+httpx = "^0.28.1"
+uvicorn = "^0.34.0"
 toml = "^0.10.2"
 asgi-lifespan = "^2.1.0"
-pytest-asyncio = "^0.23.5"
+pytest-asyncio = "^0.25.0"
 
 
 [build-system]
