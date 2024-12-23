@@ -2,7 +2,7 @@ import logging
 import sys
 
 
-def configure_logger() -> logging.Logger:
+def configure_http_logger() -> logging.Logger:
     logger: logging.Logger = logging.getLogger(
         name=__name__
     )

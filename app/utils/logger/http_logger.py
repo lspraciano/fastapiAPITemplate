@@ -1,15 +1,16 @@
 import json
 import logging
 import time
+import traceback
+import uuid
 from typing import Callable
 
 from fastapi import FastAPI
 from fastapi import Request, Response
-from starlette.responses import StreamingResponse
 
-from app.utils.logger.configure_logger import configure_logger
+from app.utils.logger.configure_logger import configure_http_logger
 
-logger: logging.Logger = configure_logger()
+http_logger: logging.Logger = configure_http_logger()
 
 
 def register_http_logger(
@@ -20,29 +21,35 @@ def register_http_logger(
             request: Request,
             call_next: Callable
     ) -> Response:
-        start_time: time.time = time.time()
+        start_time: float = time.time()
 
         try:
-            response: Response | StreamingResponse = await call_next(request)
-            response_body: bytes = b""
-            async for chunk in response.body_iterator:
-                response_body += chunk
+            response: Response = await call_next(request)
+
             log_message: dict = {
                 "status_code": response.status_code,
                 "method": request.method,
                 "host": request.url.hostname,
                 "endpoint": request.url.path,
                 "processing_time_seconds": round(time.time() - start_time, 4),
-                "response": response_body.decode(),
                 "headers": dict(request.headers),
             }
 
-            logger.info(
+            http_logger.info(
                 msg=log_message
             )
+
+            return response
+
         except Exception as error:
-            logger.error(
-                msg=f"this error needs to be handled: {error} type: {type(error)}"
+            trace_id: str = str(uuid.uuid4())
+            http_logger.critical(
+                msg={
+                    "trace_id": trace_id,
+                    "error": str(error),
+                    "type": str(type(error)),
+                    "traceback": traceback.format_exc(),
+                }
             )
 
             return Response(
@@ -51,16 +58,10 @@ def register_http_logger(
                     {
                         "detail": [
                             "unexpected error. contact support",
+                            f"trace_id: {trace_id}",
                             str(error)
-                        ]
+                        ],
                     }
                 ),
                 media_type="application/json"
             )
-
-        return Response(
-            content=response_body,
-            status_code=response.status_code,
-            headers=dict(response.headers),
-            media_type=response.media_type
-        )
